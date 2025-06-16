@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nutrition Label Generator</title>
+    
+    <!-- Include Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    
+    <style>
+        /* Immediate styles */
+        .nutrition-label {
+            font-family: 'Arial', sans-serif;
+            border: 2px solid #000;
+            padding: 10px;
+            max-width: 300px;
+            margin: 0 auto;
+            background-color: white;
+        }
+        .label-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            position: relative;
+        }
+        .separator {
+            height: 10px;
+            border-top: 1px solid #000;
+            border-bottom: 4px solid #000;
+            margin: 5px 0;
+        }
+        .thin-separator {
+            height: 1px;
+            background-color: #000;
+            margin: 5px 0;
+        }
+        .nutrient-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2px;
+        }
+        .indent {
+            margin-left: 20px;
+        }
+        .preview-container {
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            background-color: white;
+            position: sticky;
+            top: 20px;
+        }
+        .feature-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+        .feature-card:hover {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <header class="bg-gradient-to-r from-blue-600 to-indigo-700 text-white p-6 shadow-md">
+        <div class="container mx-auto flex flex-col md:flex-row justify-between items-center">
+            <h1 class="text-3xl font-bold mb-4 md:mb-0">Nutrition Label Generator</h1>
+            <div class="space-x-4">
+                <a href="#features" class="hover:underline">Features</a>
+                <a href="#how-it-works" class="hover:underline">How It Works</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Form Column -->
+            <div class="lg:col-span-2">
+                <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+                    <h2 class="text-2xl font-semibold mb-6">Enter Nutrition Information</h2>
+                    
+                    <form id="nutritionForm" class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="productName" class="block text-sm font-medium text-gray-700 mb-1">Product Name</label>
+                                <input type="text" id="productName" name="productName" class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            </div>
+                            
+                            <div>
+                                <label for="servingSize" class="block text-sm font-medium text-gray-700 mb-1">Serving Size (g)</label>
+                                <input type="text" id="servingSize" name="servingSize" class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            </div>
+                            
+                            <div>
+                                <label for="servingsPerContainer" class="block text-sm font-medium text-gray-700 mb-1">Servings Per Container</label>
+                                <input type="text" id="servingsPerContainer" name="servingsPerContainer" class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            </div>
+                            
+                            <div>
+                                <label for="calories" class="block text-sm font-medium text-gray-700 mb-1">Calories</label>
+                                <input type="text" id="calories" name="calories" class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            </div>
+                        </div>
+                        
+                        <h3 class="text-lg font-medium pt-2 border-t border-gray-200">Nutrients</h3>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="totalFat" class="block text-sm font-medium text-gray-700 mb-1">Total Fat (g)</label>
+                                <input type="text" id="totalFat" name="totalFat" class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            </div>
+                            
+                            <div>
+                                <label for="saturatedFat" class="block text-sm font-medium text-gray-700 mb-1">Saturated Fat (g)</label>
+                                <input type="text" id="saturatedFat" name="saturatedFat" class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            </div>
+                            
+                            <div>
+                                <label for="transFat" class="block text-sm font-medium text-gray-700 mb-1">Trans Fat (g)</label>
+                                <input type="text" id="transFat" name="transFat" class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            </div>
+                            
+                            <div>
+                                <label for="cholesterol" class="block text-sm font-medium text-gray-700 mb-1">Cholesterol (mg)</label>
+                                <input type="text" id="cholesterol" name="cholesterol" class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            </div>
+                            
+                            <div>
+                                <label for="sodium" class="block text-sm font-medium text-gray-700 mb-1">Sodium (mg)</label>
+                                <input type="text" id="sodium" name="sodium" class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            </div>
+                            
+                            <div>
+                                <label for="totalCarbs" class="block text-sm font-medium text-gray-700 mb-1">Total Carbohydrates (g)</label>
+                                <input type="text" id="totalCarbs" name="totalCarbs" class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            </div>
+                            
+                            <div>
+                                <label for="dietaryFiber" class="block text-sm font-medium text-gray-700 mb-1">Dietary Fiber (g)</label>
+                                <input type="text" id="dietaryFiber" name="dietaryFiber" class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            </div>
+                            
+                            <div>
+                                <label for="totalSugars" class="block text-sm font-medium text-gray-700 mb-1">Total Sugars (g)</label>
+                                <input type="text" id="totalSugars" name="totalSugars" class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            </div>
+                            
+                            <div>
+                                <label for="addedSugars" class="block text-sm font-medium text-gray-700 mb-1">Added Sugars (g)</label>
+                                <input type="text" id="addedSugars" name="addedSugars" class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            </div>
+                            
+                            <div>
+                                <label for="protein" class="block text-sm font-medium text-gray-700 mb-1">Protein (g)</label>
+                                <input type="text" id="protein" name="protein" class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            </div>
+                        </div>
+                        
+                        <h3 class="text-lg font-medium pt-2 border-t border-gray-200">Vitamins & Minerals</h3>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="vitaminD" class="block text-sm font-medium text-gray-700 mb-1">Vitamin D (mcg)</label>
+                                <input type="text" id="vitaminD" name="vitaminD" class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            </div>
+                            
+                            <div>
+                                <label for="calcium" class="block text-sm font-medium text-gray-700 mb-1">Calcium (mg)</label>
+                                <input type="text" id="calcium" name="calcium" class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            </div>
+                            
+                            <div>
+                                <label for="iron" class="block text-sm font-medium text-gray-700 mb-1">Iron (mg)</label>
+                                <input type="text" id="iron" name="iron" class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            </div>
+                            
+                            <div>
+                                <label for="potassium" class="block text-sm font-medium text-gray-700 mb-1">Potassium (mg)</label>
+                                <input type="text" id="potassium" name="potassium" class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+                            Update Preview
+                        </button>
+                    </form>
+                </div>
+                
+                <div id="features" class="bg-white rounded-lg shadow-md p-6 mb-8">
+                    <h2 class="text-2xl font-semibold mb-6">Features</h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="feature-card">
+                            <h3 class="text-lg font-medium text-blue-700 mb-2">Multiple Formats</h3>
+                            <p class="text-gray-600">Choose from several label formats including Standard, Vertical, Horizontal, Tabular, and more.</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <h3 class="text-lg font-medium text-blue-700 mb-2">Export Options</h3>
+                            <p class="text-gray-600">Download your nutrition label as PNG with transparency, JPG, or PDF.</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <h3 class="text-lg font-medium text-blue-700 mb-2">Designer Layouts</h3>
+                            <p class="text-gray-600">Choose from elegant colored layouts like Modern Blue, Gradient Purple, and Organic Green.</p>
+                        </div>
+                        
+                        <div class="feature-card">
+                            <h3 class="text-lg font-medium text-blue-700 mb-2">Save Your Labels</h3>
+                            <p class="text-gray-600">All labels are stored in our database for easy retrieval and updates.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="how-it-works" class="bg-white rounded-lg shadow-md p-6">
+                    <h2 class="text-2xl font-semibold mb-6">How It Works</h2>
+                    
+                    <ol class="list-decimal list-inside space-y-4 text-gray-700">
+                        <li class="pl-4">
+                            <span class="font-medium text-gray-900">Enter your nutrition information</span>
+                            <p class="mt-1 pl-6">Fill out the form with your product's nutrition facts.</p>
+                        </li>
+                        
+                        <li class="pl-4">
+                            <span class="font-medium text-gray-900">Choose a format</span>
+                            <p class="mt-1 pl-6">Select from various label formats that best suits your needs.</p>
+                        </li>
+                        
+                        <li class="pl-4">
+                            <span class="font-medium text-gray-900">Preview your label</span>
+                            <p class="mt-1 pl-6">See a real-time preview of how your nutrition label will look.</p>
+                        </li>
+                        
+                        <li class="pl-4">
+                            <span class="font-medium text-gray-900">Download or save</span>
+                            <p class="mt-1 pl-6">Download your label in PNG, JPG, or PDF format, or save it to your account.</p>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+            
+            <!-- Preview Column -->
+            <div class="lg:col-span-1">
+                <div class="preview-container">
+                    <h2 class="text-xl font-semibold mb-4">Label Preview</h2>
+                    
+                    <div class="mb-4">
+                        <label for="labelFormat" class="block text-sm font-medium text-gray-700 mb-1">Label Format:</label>
+                        <select id="labelFormat" class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            <option value="standard">Standard</option>
+                            <option value="horizontal">Horizontal</option>
+                            <option value="vertical">Vertical</option>
+                            <option value="tabular">Tabular</option>
+                            <option value="simplified">Simplified</option>
+                            <option value="modern">Modern Blue</option>
+                            <option value="gradient">Gradient Purple</option>
+                            <option value="organic">Organic Green</option>
+                        </select>
+                    </div>
+                    
+                    <div class="flex space-x-2 mb-4">
+                        <button id="zoomInBtn" class="flex items-center space-x-1 px-2 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-50">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                            </svg>
+                            <span>Zoom In</span>
+                        </button>
+                        
+                        <button id="zoomOutBtn" class="flex items-center space-x-1 px-2 py-1 text-sm border border-gray-300 rounded-md hover:bg-gray-50">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m0 0h6m-6 0H4" />
+                            </svg>
+                            <span>Zoom Out</span>
+                        </button>
+                    </div>
+                    
+                    <div class="border-t border-gray-200 pt-4 mb-4">
+                        <div class="flex flex-wrap gap-2">
+                            <button id="downloadPng" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-1 px-3 text-sm rounded transition duration-300">PNG</button>
+                            <button id="downloadJpg" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-1 px-3 text-sm rounded transition duration-300">JPG</button>
+                            <button id="downloadPdf" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-1 px-3 text-sm rounded transition duration-300">PDF</button>
+                            <button id="saveLabel" class="bg-green-600 hover:bg-green-700 text-white font-medium py-1 px-3 text-sm rounded transition duration-300">Save Label</button>
+                        </div>
+                    </div>
+                    
+                    <div class="label-container">
+                        <div id="labelPreview" class="transform origin-top" style="transform: scale(1);">
+                            <!-- Label will be loaded here via AJAX -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <h3 class="text-xl font-bold">Nutrition Label Generator</h3>
+                    <p class="text-gray-300 mt-1">Create FDA-compliant nutrition facts labels easily.</p>
+                </div>
+                
+                <div class="flex space-x-6">
+                    <a href="#" class="hover:text-blue-400 transition duration-300">Privacy Policy</a>
+                    <a href="#" class="hover:text-blue-400 transition duration-300">Terms of Service</a>
+                    <a href="#" class="hover:text-blue-400 transition duration-300">Contact</a>
+                </div>
+            </div>
+            
+            <div class="mt-6 border-t border-gray-700 pt-6 text-center text-gray-400">
+                <p>&copy; 2023 Nutrition Label Generator. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- JavaScript -->
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,141 @@
+/* Nutrition Label Styles */
+.nutrition-label {
+    font-family: 'Arial', sans-serif;
+    border: 2px solid #000;
+    padding: 10px;
+    max-width: 300px;
+    margin: 0 auto;
+    background-color: white;
+}
+
+.standard-label {
+    width: 280px;
+}
+
+.horizontal-label {
+    width: 500px;
+}
+
+.vertical-label {
+    width: 250px;
+}
+
+.tabular-label table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.tabular-label th,
+.tabular-label td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.tabular-label th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.simplified-label {
+    width: 280px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+}
+
+.modern-label {
+    width: 280px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: none;
+}
+
+.gradient-label {
+    width: 280px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: none;
+}
+
+.organic-label {
+    width: 280px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: none;
+}
+
+.separator {
+    height: 10px;
+    border-top: 1px solid #000;
+    border-bottom: 4px solid #000;
+    margin: 5px 0;
+}
+
+.thin-separator {
+    height: 1px;
+    background-color: #000;
+    margin: 5px 0;
+}
+
+.nutrient-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2px;
+}
+
+.indent {
+    margin-left: 20px;
+}
+
+/* Animation effects */
+.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Toast notification */
+.toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px;
+    border-radius: 4px;
+    z-index: 1000;
+    display: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.toast.show {
+    display: block;
+    animation: fadeInOut 3s ease-in-out forwards;
+}
+
+.toast.error {
+    background-color: #f44336;
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; transform: translateY(-20px); }
+    10% { opacity: 1; transform: translateY(0); }
+    90% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(-20px); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .horizontal-label {
+        width: 100%;
+        max-width: 400px;
+    }
+}
