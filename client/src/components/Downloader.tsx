@@ -152,7 +152,7 @@ const Downloader: React.FC<DownloaderProps> = ({ labelRef }) => {
           </html>
         `;
         const API_BASE_URL = import.meta.env.VITE_API_URL;
-        const response = await fetch(`/api/receive`, {
+        const response = await fetch(`/Nutrition-labeler/api/receive`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ html: htmlContent, width: `${widthPx}px`, height: `${heightPx}px` }),
