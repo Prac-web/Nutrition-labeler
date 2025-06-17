@@ -6,7 +6,7 @@ import { jsPDF } from "jspdf";
 import domtoimage from "dom-to-image";
 import { saveAs } from "file-saver";
 import pdfMake from "pdfmake/build/pdfmake";
-import pdfFonts from "pdfmake/build/vfs_fonts";
+// import pdfFonts from "pdfmake/build/vfs_fonts";
 import { writePsd } from "ag-psd";
 import htmlToPdfmake from "html-to-pdfmake";
 import { useToast } from "@/hooks/use-toast";
