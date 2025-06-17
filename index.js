@@ -98,7 +98,7 @@ var storage = {
 // server/routes.ts
 import { chromium } from "playwright";
 async function registerRoutes(app2) {
-  const apiPrefix = "/api";
+  const apiPrefix = "/Nutrition-labeler/api";
   app2.get(`${apiPrefix}/health`, (_req, res) => {
     res.status(200).json({ status: "ok" });
   });
