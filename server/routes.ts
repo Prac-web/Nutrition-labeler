@@ -5,7 +5,7 @@ import { chromium } from 'playwright';
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // API routes for the nutrition label generator
-  const apiPrefix = "/api";
+  const apiPrefix = "/Nutrition-labeler/api";
 
   // Health check endpoint
   app.get(`${apiPrefix}/health`, (_req: Request, res: Response) => {
