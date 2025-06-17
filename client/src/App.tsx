@@ -14,7 +14,7 @@ import {
 function Router() {
   return (
     <Switch>
-      <Route path="/label_generator" component={Home} />
+      <Route path="/Nutrition-labeler" component={Home} />
       <Route component={NotFound} />
     </Switch>
   );
